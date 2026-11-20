@@ -41,7 +41,7 @@ JSON・XML 両形式のコメントファイルに対応し、コメント付き
 | OS | Windows 10/11（macOS・Linux も動作する見込みですが未検証） |
 | Python | 3.10 以上 |
 | PySide6 | 6.5 以上（`requirements.txt` 参照） |
-| FFmpeg | **書き出し機能のみ**必要。[ffmpeg.org](https://ffmpeg.org/download.html) からインストール |
+| FFmpeg | **書き出し機能のみ**必要。Windows なら `winget install Gyan.FFmpeg`、または [ffmpeg.org](https://ffmpeg.org/download.html) からインストール |
 
 ---
 
@@ -50,6 +50,9 @@ JSON・XML 両形式のコメントファイルに対応し、コメント付き
 ```powershell
 # 依存ライブラリのインストール（PySide6 のみ）
 python -m pip install -r requirements.txt
+
+# （任意）書き出し機能を使う場合、FFmpeg をインストール
+winget install Gyan.FFmpeg
 ```
 
 ---
@@ -140,7 +143,12 @@ python niconico_player.py video.mp4 comments.xml
 
 ### 手順
 
-1. FFmpeg をインストールして PATH に通す → [ffmpeg.org](https://ffmpeg.org/download.html)
+1. FFmpeg をインストールして PATH に通す
+   - Windows (PowerShell / コマンドプロンプト):
+     ```powershell
+     winget install Gyan.FFmpeg
+     ```
+   - または [ffmpeg.org](https://ffmpeg.org/download.html) から手動でダウンロード
 2. 動画とコメントファイルを開く
 3. 「**書き出し**」ボタンをクリック
 4. 保存先を選択 → 合成開始（進捗バー表示、キャンセル可能）
