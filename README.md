@@ -27,10 +27,11 @@ JSON・XML 両形式のコメントファイルに対応し、コメント付き
 
 - 🎬 **動画再生** — MP4 / WebM / MKV など Qt 対応形式
 - 💬 **コメントオーバーレイ** — ニコ動そっくりのスクロール・固定・色・サイズ再現
+- 🔤 **文字サイズ自由調整** — 操作バーのスピンボックスから好みのフォントサイズに変更可能
 - 📄 **JSON / XML 両対応** — nvapi 形式 JSON と ニコ動 XML エクスポートを自動判別
-- 🎞️ **コメント付き書き出し** — FFmpeg を使って合成済み MP4 を出力（要 FFmpeg）
+- 🎞️ **コメント付き書き出し** — FFmpeg を使って合成済み MP4 を出力（未導入時は自動ダウンロード対応）
 - 🔊 **音声デバイス切替** — Bluetooth イヤホン含む出力先を動的に変更
-- ⚡ **軽量描画** — ピクスマップキャッシュで 30fps を維持
+- ⚡ **軽量描画** — ピクスマップキャッシュ＆デバウンス処理で快適に動作
 
 ---
 
@@ -40,18 +41,21 @@ JSON・XML 両形式のコメントファイルに対応し、コメント付き
 |---|---|
 | OS | Windows 10/11（macOS・Linux も動作する見込みですが未検証） |
 | Python | 3.10 以上 |
-| PySide6 | 6.5 以上（`requirements.txt` 参照） |
-| FFmpeg | **書き出し機能のみ**必要。Windows なら `winget install Gyan.FFmpeg`、または [ffmpeg.org](https://ffmpeg.org/download.html) からインストール |
+| PySide6 | 6.5 以上（未導入時は初回起動時に確認ダイアログから自動インストール可能） |
+| FFmpeg | **書き出し機能のみ**必要。未導入時は書き出しボタン押下時にワンクリックで自動ダウンロード可能（または `winget install Gyan.FFmpeg`） |
 
 ---
 
 ## セットアップ
 
+初回起動時に必要なツールが不足している場合はダイアログで確認の上、自動でセットアップされます。  
+手動で事前インストールする場合は以下を実行してください：
+
 ```powershell
 # 依存ライブラリのインストール（PySide6 のみ）
 python -m pip install -r requirements.txt
 
-# （任意）書き出し機能を使う場合、FFmpeg をインストール
+# （任意）書き出し機能を使う場合、FFmpeg を事前インストール
 winget install Gyan.FFmpeg
 ```
 
@@ -143,15 +147,11 @@ python niconico_player.py video.mp4 comments.xml
 
 ### 手順
 
-1. FFmpeg をインストールして PATH に通す
-   - Windows (PowerShell / コマンドプロンプト):
-     ```powershell
-     winget install Gyan.FFmpeg
-     ```
-   - または [ffmpeg.org](https://ffmpeg.org/download.html) から手動でダウンロード
-2. 動画とコメントファイルを開く
-3. 「**書き出し**」ボタンをクリック
-4. 保存先を選択 → 合成開始（進捗バー表示、キャンセル可能）
+1. 動画とコメントファイルを開く
+2. 「**書き出し**」ボタンをクリック
+   - ※ FFmpeg が未インストールの場合は確認ダイアログが表示され、ワンクリックで自動ダウンロードできます。
+   - 手動インストールする場合は `winget install Gyan.FFmpeg`
+3. 保存先を選択 → 合成開始（進捗バー表示、キャンセル可能）
 
 ### 仕組み
 
